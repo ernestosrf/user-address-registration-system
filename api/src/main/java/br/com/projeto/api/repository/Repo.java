@@ -1,4 +1,4 @@
-package br.com.projeto.api.repo;
+package br.com.projeto.api.repository;
 
 import java.util.UUID;
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 // models
 import br.com.projeto.api.models.User;
-import br.com.projeto.api.repo.Repo;
+import br.com.projeto.api.repository.Repo;
 
 @RestController
 public class Controller {
