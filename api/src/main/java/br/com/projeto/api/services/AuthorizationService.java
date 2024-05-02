@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import br.com.projeto.api.dtos.AuthenticationDto;
 import br.com.projeto.api.dtos.RegisterDto;
 import br.com.projeto.api.models.User;
-import br.com.projeto.api.repository.Repo;
+import br.com.projeto.api.repository.UserRepository;
 import br.com.projeto.api.security.JwtIssuer;
 import jakarta.validation.Valid;
 
@@ -30,7 +30,7 @@ public class AuthorizationService implements UserDetailsService{
     private ApplicationContext context;
 
     @Autowired
-    private Repo userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtIssuer tokenService;
