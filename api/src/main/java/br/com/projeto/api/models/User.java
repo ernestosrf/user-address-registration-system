@@ -4,16 +4,27 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.GeneratedValue;
+
+import java.sql.Date;
+import java.util.Collection;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 @Getter
 @Setter
-public class User {
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -21,8 +32,66 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 
-    private String login;
+    private String username;
 
     private String password;
+
+    // @Temporal(TemporalType.TIMESTAMP)
+    // @Column(name = "created_at", nullable = false, updatable = false)
+    // private Date createdAt;
+
+    // @Temporal(TemporalType.TIMESTAMP)
+    // @Column(name = "updated_at", nullable = true)
+    // private Date updatedt;
+
+    private String acessToken;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;    
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAcessToken() {
+        return acessToken;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
     
 }
