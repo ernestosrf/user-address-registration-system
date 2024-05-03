@@ -13,28 +13,37 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
     @Autowired
     SecurityFilter securityFilter;
 
+    // private final UnauthorizedHandler unauthorizedHandler;
+
     @Bean
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
+        http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+
         http
             .cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .formLogin(formLogin -> formLogin.disable())
+            // .exceptionHandling()
+            //     .authenticationEntryPoint(unauthorizedHandler)
+            //     .and()
             .securityMatcher("/**")
             .authorizeHttpRequests(registry -> registry
-            .requestMatchers("/").permitAll()
-            .requestMatchers("/auth/register").permitAll()
-            .requestMatchers("/auth/login").permitAll()
-            .anyRequest().permitAll()
-            )
-            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/auth/register").permitAll()
+                .requestMatchers("/auth/login").permitAll()
+                .anyRequest().authenticated()
+            );  
 
         return http.build();
     }

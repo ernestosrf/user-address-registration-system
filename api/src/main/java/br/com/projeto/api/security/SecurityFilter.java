@@ -28,12 +28,11 @@ public class SecurityFilter extends OncePerRequestFilter{
         var token = this.recoverToken(request);
 
         if (token != null) {
-            var username = tokenService.validateToken(token);
+            var username = tokenService.validateToken(token).getBody();
             UserDetails user = userRepository.findByUsername(username);
-
             if (user != null) {
-                var authentication = new UsernamePasswordAuthenticationToken(user, null);
-                SecurityContextHolder.getContext().setAuthentication(authentication);             
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             
         }

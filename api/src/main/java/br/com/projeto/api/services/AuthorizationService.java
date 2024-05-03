@@ -9,10 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -21,6 +23,8 @@ import br.com.projeto.api.dtos.RegisterDto;
 import br.com.projeto.api.models.User;
 import br.com.projeto.api.repository.UserRepository;
 import br.com.projeto.api.security.JwtIssuer;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Service
@@ -52,9 +56,10 @@ public class AuthorizationService implements UserDetailsService{
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.password());
             var auth = this.authenticationManager.authenticate(usernamePassword);
             var token = tokenService.issueToken((User) auth.getPrincipal());
+            System.out.println(token);
             return ResponseEntity.ok(token);
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(Response.SC_UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(Response.SC_UNAUTHORIZED).body("Unexistent user or wrong password");
         }
 
     }
@@ -68,6 +73,11 @@ public class AuthorizationService implements UserDetailsService{
         // newUser.setCreatedAt(new Date(System.currentTimeMillis()));
         this.userRepository.save(newUser);
         return ResponseEntity.ok(newUser);        
+    }
+
+    public String logout(HttpServletRequest request, HttpServletResponse response){
+        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+        return "Logout successful";
     }
 
     

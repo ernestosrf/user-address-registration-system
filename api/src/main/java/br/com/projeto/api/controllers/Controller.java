@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +14,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-import br.com.projeto.api.repository.UserRepository;
-import br.com.projeto.api.security.JwtIssuer;
 import br.com.projeto.api.services.AddressService;
 import br.com.projeto.api.services.AuthorizationService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import br.com.projeto.api.dtos.AuthenticationDto;
 import br.com.projeto.api.dtos.RegisterDto;
-// models
 import br.com.projeto.api.models.User;
+// models
 import br.com.projeto.api.models.UserAddress;
 
 @RestController
@@ -40,6 +41,12 @@ public class Controller {
         return "Hello World!";
     }
 
+    @GetMapping("/secure")
+    public String secure(@AuthenticationPrincipal User user) {
+        return "If you see this, you are logged in as " + user.getUsername()
+            + " and your ID is " + user.getId();
+    }
+
     @PostMapping("/auth/login")
     public ResponseEntity<Object> login(@RequestBody @Valid AuthenticationDto authenticationDto) {
         return authorizationService.login(authenticationDto);
@@ -48,6 +55,11 @@ public class Controller {
     @PostMapping("/auth/register")
     public ResponseEntity<Object> register(@RequestBody RegisterDto registerDto) {
         return authorizationService.register(registerDto);
+    }
+
+    @PostMapping("/auth/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        return authorizationService.logout(request, response);
     }
 
     @PostMapping("/addresses")
