@@ -23,7 +23,6 @@ public class WebSecurityConfig {
     @Autowired
     SecurityFilter securityFilter;
 
-    // private final UnauthorizedHandler unauthorizedHandler;
 
     @Bean
     public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
@@ -34,9 +33,6 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .formLogin(formLogin -> formLogin.disable())
-            // .exceptionHandling()
-            //     .authenticationEntryPoint(unauthorizedHandler)
-            //     .and()
             .securityMatcher("/**")
             .authorizeHttpRequests(registry -> registry
                 .requestMatchers("/").permitAll()

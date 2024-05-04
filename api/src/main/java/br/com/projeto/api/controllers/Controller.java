@@ -3,6 +3,7 @@ package br.com.projeto.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,9 +43,9 @@ public class Controller {
     }
 
     @GetMapping("/secure")
-    public String secure(@AuthenticationPrincipal User user) {
-        return "If you see this, you are logged in as " + user.getUsername()
-            + " and your ID is " + user.getId();
+    public ResponseEntity<Object> secure(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok("If you see this, you are logged in as " + user.getUsername()
+            + " and your ID is " + user.getId());
     }
 
     @PostMapping("/auth/login")
@@ -75,15 +76,23 @@ public class Controller {
     }
 
     @PutMapping("/addresses/{addressId}")
-    public ResponseEntity<UserAddress> updateAddress(@PathVariable String addressId, @RequestBody UserAddress address) {
-        UserAddress updatedAddress = addressService.updateAddress(addressId, address);
-        return ResponseEntity.ok(updatedAddress);
+    public ResponseEntity<Object> updateAddress(@PathVariable String addressId, @RequestBody UserAddress address) {
+        try {
+            UserAddress updatedAddress = addressService.updateAddress(addressId, address);
+            return ResponseEntity.ok("Address with ID " + updatedAddress.getId().toString() + " successfully updated");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/addresses/{addressId}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable String addressId) {
-        addressService.deleteAddress(addressId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Object> deleteAddress(@PathVariable String addressId) {
+        try {
+            UserAddress deletedAddress = addressService.deleteAddress(addressId);
+            return ResponseEntity.ok("Address with ID " + deletedAddress.getId().toString() + " successfully deleted");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 }

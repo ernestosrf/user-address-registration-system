@@ -36,11 +36,11 @@ public class AddressService {
         return addressRepository.save(addressToUpdate);
     }
 
-    public ResponseEntity<String> deleteAddress(String id) {
+    public UserAddress deleteAddress(String id) {
         UserAddress address = addressRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Address not found"));
         addressRepository.delete(address);
-        return ResponseEntity.ok().body("Address successfully deleted");
+        return address;
     }
 
 }
