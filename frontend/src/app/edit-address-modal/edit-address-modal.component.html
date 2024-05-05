@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Editar Endereço</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modalRef.close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-outline">
+        <input type="text" id="addressZipCode" class="form-control" maxlength="8" placeholder="CEP" value="01234-567">
+        <!-- <label class="form-label" for="addressZipCode">CEP</label> -->
+      </div>
+  
+      <div class="row">
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="addressStreet" class="form-control" placeholder="Endereço" value="Rua das Flores">
+            <!-- <label class="form-label" for="addressStreet">Endereço</label> -->
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="addressNumber" class="form-control" placeholder="Número" value="123">
+            <!-- <label class="form-label" for="addressNumber">Número</label> -->
+        </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="addressComplement" class="form-control" placeholder="Complemento" value="Apartamento 101">
+            <!-- <label class="form-label" for="addressComplement">Complemento</label> -->
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="addressNeighborhood" class="form-control" placeholder="Bairro" value="Centro">
+            <!-- <label class="form-label" for="addressNeighborhood">Bairro</label> -->
+          </div>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="city" class="form-control" placeholder="Cidade" value="São Paulo">
+            <!-- <label class="form-label" for="city">Cidade</label> -->
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-outline">
+            <input type="text" id="state" class="form-control" placeholder="Estado" value="SP">
+            <!-- <label class="form-label" for="state">Estado</label> -->
+          </div>
+        </div>
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary">Salvar alterações</button>
+      <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+  </div>

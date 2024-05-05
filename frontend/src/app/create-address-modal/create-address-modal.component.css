@@ -1,0 +1,11 @@
+.modal-footer {
+    justify-content: center;
+}
+
+.modal-body .row {
+    margin-bottom: 20px;
+}
+
+.modal-body .form-control {
+    margin-top: 20px;
+}
