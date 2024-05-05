@@ -76,22 +76,22 @@ public class Controller {
     }
 
     @PutMapping("/addresses/{addressId}")
-    public ResponseEntity<Object> updateAddress(@PathVariable String addressId, @RequestBody UserAddress address) {
+    public ResponseEntity<UserAddress> updateAddress(@PathVariable String addressId, @RequestBody UserAddress address) {
         try {
             UserAddress updatedAddress = addressService.updateAddress(addressId, address);
-            return ResponseEntity.ok("Address with ID " + updatedAddress.getId().toString() + " successfully updated");
+            return ResponseEntity.ok(updatedAddress);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @DeleteMapping("/addresses/{addressId}")
-    public ResponseEntity<Object> deleteAddress(@PathVariable String addressId) {
+    public ResponseEntity<Void> deleteAddress(@PathVariable String addressId) {
         try {
-            UserAddress deletedAddress = addressService.deleteAddress(addressId);
-            return ResponseEntity.ok("Address with ID " + deletedAddress.getId().toString() + " successfully deleted");
+            addressService.deleteAddress(addressId);
+            return ResponseEntity.ok().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

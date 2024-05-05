@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +30,15 @@ public class WebSecurityConfig {
         http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         http
-            .cors(cors -> cors.disable())
+            .cors(cors -> cors
+                .configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.applyPermitDefaultValues();
+                    config.addAllowedMethod("PUT");
+                    config.addAllowedMethod("DELETE");
+                    config.addAllowedOrigin("http://localhost:4200");
+                    return config;
+                }))
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .formLogin(formLogin -> formLogin.disable())

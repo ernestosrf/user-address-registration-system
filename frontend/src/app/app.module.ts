@@ -8,7 +8,8 @@ import { CreateAddressModalComponent } from './create-address-modal/create-addre
 import { EditAddressModalComponent } from './edit-address-modal/edit-address-modal.component';
 import { DeleteAddressModalComponent } from './delete-address-modal/delete-address-modal.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
-// import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,8 +22,9 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MdbModalModule
-    // HttpClientModule
+    MdbModalModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

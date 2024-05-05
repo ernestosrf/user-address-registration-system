@@ -1,9 +1,18 @@
 <h1>Lista de Endereços Cadastrados</h1>
+<div class="alert alert-success" role="alert" *ngIf="showDeletedAlert">
+    Endereço deletado com sucesso!
+</div>
+<div class="alert alert-success" role="alert" *ngIf="showCreatedAlert">
+    Endereço criado com sucesso!
+</div>
+<div class="alert alert-success" role="alert" *ngIf="showUpdatedAlert">
+    Endereço atualizado com sucesso!
+</div>
 <input type="button" value="Cadastrar novo endereço" class="btn btn-primary" (click)="openCreateModal()">
 <table class="table">
-    <thead>
+    <thead *ngIf="addresses.length > 0">
         <tr>
-            <th>Id</th>
+            <th>#</th>
             <th>Endereço</th>
             <th>Número</th>
             <th>Complemento</th>
@@ -16,75 +25,22 @@
     </thead>
 
     <tbody>
-        <tr>
-            <td> 13 </td>
-            <td> Rua das Floresssssssssssssssssssssssssssssss </td>
-            <td> 123 </td>
-            <td> Apartamento 101 </td>
-            <td> Centro </td>
-            <td> São Paulo </td>
-            <td> SP </td>
-            <td> 01234-567 </td>
+        <tr *ngFor="let a of addresses; index as i">
+            <td> {{i+1}} </td>
+            <td> {{a.street}} </td>
+            <td> {{a.number}} </td>
+            <td> {{a.complement}} </td>
+            <td> {{a.neighborhood}} </td>
+            <td> {{a.city}} </td>
+            <td> {{a.state}} </td>
+            <td> {{a.zipCode}} </td>
             <td>
-                <button class="btn btn-primary" (click)="openEditModal()" ><img src="assets/edit_icon.png" alt="icone de edição"></button>
-                <button class="btn btn-danger" (click)="openDeleteModal()" ><img src="assets/trash_icon.png" alt="icone de exclusão"></button>
+                <button class="btn btn-primary" (click)="openEditModal(a)" ><img src="assets/edit_icon.png" alt="icone de edição"></button>
+                <button class="btn btn-danger" (click)="openDeleteModal(a)" ><img src="assets/trash_icon.png" alt="icone de exclusão"></button>
             </td>
         </tr>
-        <tr>
-            <td> 13 </td>
-            <td> Rua das Floressssssssssssss </td>
-            <td> 123 </td>
-            <td> Apartamento 101 </td>
-            <td> Centro </td>
-            <td> São Paulo </td>
-            <td> SP </td>
-            <td> 01234-567 </td>
-            <td>
-                <button class="btn btn-primary" ><img src="assets/edit_icon.png" alt="icone de edição"></button>
-                <button class="btn btn-danger" ><img src="assets/trash_icon.png" alt="icone de exclusão"></button>
-            </td>
-        </tr>
-        <tr>
-            <td> 13 </td>
-            <td> Rua das Floressssssssssssss </td>
-            <td> 123 </td>
-            <td> Apartamento 101 </td>
-            <td> Centro </td>
-            <td> São Paulo </td>
-            <td> SP </td>
-            <td> 01234-567 </td>
-            <td>
-                <button class="btn btn-primary" ><img src="assets/edit_icon.png" alt="icone de edição"></button>
-                <button class="btn btn-danger" ><img src="assets/trash_icon.png" alt="icone de exclusão"></button>
-            </td>
-        </tr>
-        <tr>
-            <td> 13 </td>
-            <td> Rua das Floressssssssssssss </td>
-            <td> 123 </td>
-            <td> Apartamento 101 </td>
-            <td> Centro </td>
-            <td> São Paulo </td>
-            <td> SP </td>
-            <td> 01234-567 </td>
-            <td>
-                <button class="btn btn-primary" ><img src="assets/edit_icon.png" alt="icone de edição"></button>
-                <button class="btn btn-danger" ><img src="assets/trash_icon.png" alt="icone de exclusão"></button>
-            </td>
-        </tr>
-        <tr>
-            <td> 13 </td>
-            <td> Rua das Floressssssssssssss </td>
-            <td> 123 </td>
-            <td> Apartamento 101 </td>
-            <td> Centro </td>
-            <td> São Paulo </td>
-            <td> SP </td>
-            <td> 01234-567 </td>
-            <td>
-                <button class="btn btn-primary" ><img src="assets/edit_icon.png" alt="icone de edição"></button>
-                <button class="btn btn-danger" ><img src="assets/trash_icon.png" alt="icone de exclusão"></button>
-            </td>
+        <tr *ngIf="addresses.length == 0">
+            <td colspan="9" class="emptyAddress"><h2>Você ainda não possui nenhum endereço cadastrado</h2></td>
         </tr>
     </tbody>
 </table>

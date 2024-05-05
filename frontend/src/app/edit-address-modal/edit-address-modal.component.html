@@ -10,21 +10,18 @@
   <div class="modal-body">
     <form>
       <div class="form-outline">
-        <input type="text" id="addressZipCode" class="form-control" maxlength="8" placeholder="CEP" value="01234-567">
-        <!-- <label class="form-label" for="addressZipCode">CEP</label> -->
+        <input type="text" id="addressZipCode" class="form-control" maxlength="8" placeholder="CEP" name="zipCode" [(ngModel)]="address.zipCode">
       </div>
   
       <div class="row">
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="addressStreet" class="form-control" placeholder="Endereço" value="Rua das Flores">
-            <!-- <label class="form-label" for="addressStreet">Endereço</label> -->
+            <input type="text" id="addressStreet" class="form-control" placeholder="Endereço" value="Rua das Flores" name="street" [(ngModel)]="address.street">
           </div>
         </div>
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="addressNumber" class="form-control" placeholder="Número" value="123">
-            <!-- <label class="form-label" for="addressNumber">Número</label> -->
+            <input type="text" id="addressNumber" class="form-control" placeholder="Número" value="123" name="number" [(ngModel)]="address.number">
         </div>
         </div>
       </div>
@@ -32,14 +29,12 @@
       <div class="row">
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="addressComplement" class="form-control" placeholder="Complemento" value="Apartamento 101">
-            <!-- <label class="form-label" for="addressComplement">Complemento</label> -->
+            <input type="text" id="addressComplement" class="form-control" placeholder="Complemento" value="Apartamento 101" name="complement" [(ngModel)]="address.complement">
           </div>
         </div>
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="addressNeighborhood" class="form-control" placeholder="Bairro" value="Centro">
-            <!-- <label class="form-label" for="addressNeighborhood">Bairro</label> -->
+            <input type="text" id="addressNeighborhood" class="form-control" placeholder="Bairro" value="Centro" name="neighborhood" [(ngModel)]="address.neighborhood">
           </div>
         </div>
       </div>
@@ -47,19 +42,17 @@
       <div class="row">
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="city" class="form-control" placeholder="Cidade" value="São Paulo">
-            <!-- <label class="form-label" for="city">Cidade</label> -->
+            <input type="text" id="city" class="form-control" placeholder="Cidade" value="São Paulo" name="city" [(ngModel)]="address.city">
           </div>
         </div>
         <div class="col">
           <div class="form-outline">
-            <input type="text" id="state" class="form-control" placeholder="Estado" value="SP">
-            <!-- <label class="form-label" for="state">Estado</label> -->
+            <input type="text" id="state" class="form-control" placeholder="Estado" value="SP" name="state" [(ngModel)]="address.state">
           </div>
         </div>
       </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary">Salvar alterações</button>
+      <button type="button" class="btn btn-primary" (click)="updateAddress()">Salvar alterações</button>
       <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
         Cancelar
       </button>

@@ -9,7 +9,7 @@
 </div>
 <div class="modal-body">Tem certeza que deseja excluir esse Endereço?</div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary">Sim</button>
+  <button type="button" class="btn btn-primary" (click)="deleteAddress(address.id)">Sim</button>
   <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
     Não
   </button>

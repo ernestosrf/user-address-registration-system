@@ -26,27 +26,16 @@ public class SecurityFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
+        System.out.println("TOKEN: " + token);
 
-        if (token == null) {
-            System.out.println("Token not found");
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing JWT token.");
-            return;
-        }
-
-        try {
+        if (token != null) {
             var username = tokenService.validateToken(token).getBody();
             UserDetails user = userRepository.findByUsername(username);
             if (user != null) {
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-            
-        } catch (Exception e) {
-            System.out.println("Invalid token");
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token.");
-            return;
         }
-
         filterChain.doFilter(request, response);
     }
 

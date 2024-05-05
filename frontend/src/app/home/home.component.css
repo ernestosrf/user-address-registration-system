@@ -38,3 +38,13 @@ table {
 table button {
     margin-right: 5px;
 }
+
+.emptyAddress {
+    text-align: center;
+}
+
+.alert {
+    text-align: center;
+    width: 50%;
+    margin-left: 450px;
+}
