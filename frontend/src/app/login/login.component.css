@@ -34,7 +34,7 @@
     margin-bottom: 15px;
   }
   
-  button {
+  .btn-block {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -44,7 +44,7 @@
     cursor: pointer;
   }
   
-  button:hover {
+  .btn-block:hover {
     background-color: #0056b3;
   }
 

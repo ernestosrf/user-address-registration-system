@@ -29,8 +29,10 @@ export class LoginComponent {
     this.http.post<string>('http://localhost:8080/auth/login', this.loginObj, {headers: this.headers_object, responseType: 'text' as 'json'}).subscribe({
       next: (res: any) => {
         if(res) {
+          this.showSuccessLoginAlert = true;
+          setTimeout(() => this.showSuccessLoginAlert = false, 5000);
           this.authService.setToken(res);
-          this.router.navigateByUrl('/home');
+          setTimeout(() => this.router.navigateByUrl('/home'), 5000);    
         }
       },
       error: (error: any) => {
@@ -46,6 +48,10 @@ export class LoginComponent {
         }
       }
     });
+  }
+
+  goToRegister() {
+    this.router.navigateByUrl('/register');
   }
   
 

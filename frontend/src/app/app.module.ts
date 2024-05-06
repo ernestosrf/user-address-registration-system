@@ -21,7 +21,7 @@ import { RegisterComponent } from './register/register.component';
     EditAddressModalComponent,
     DeleteAddressModalComponent,
     // LoginComponent,
-    RegisterComponent
+    // RegisterComponent
   ],
   imports: [
     BrowserModule,
