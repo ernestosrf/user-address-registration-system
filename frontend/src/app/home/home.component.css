@@ -48,3 +48,7 @@ table button {
     width: 50%;
     margin-left: 450px;
 }
+
+.text-right {
+    text-align: center;
+}

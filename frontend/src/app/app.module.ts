@@ -10,6 +10,7 @@ import { DeleteAddressModalComponent } from './delete-address-modal/delete-addre
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
@@ -29,7 +30,8 @@ import { RegisterComponent } from './register/register.component';
     MdbModalModule,
     HttpClientModule,
     FormsModule,
-    NgxViacepModule
+    NgxViacepModule,
+    NgxPaginationModule
   ],
   providers: [],
   // bootstrap: [AppComponent]

@@ -22,6 +22,7 @@
     "@types/bootstrap": "^5.2.10",
     "bootstrap": "^5.3.3",
     "mdb-angular-ui-kit": "^6.0.0",
+    "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

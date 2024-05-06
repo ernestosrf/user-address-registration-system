@@ -54,6 +54,10 @@ export class HomeComponent {
   showCreatedAlert = false;
   showUpdatedAlert = false;
 
+  // Pagination logic
+  pag:number= 1;
+  counter:number = 5;
+
   // API logic
 
   address = new Address();
