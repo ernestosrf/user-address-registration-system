@@ -9,3 +9,7 @@
 .modal-body .form-control {
     margin-top: 20px;
 }
+
+.text-danger {
+    text-align: center;
+}

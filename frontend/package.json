@@ -18,6 +18,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@brunoc/ngx-viacep": "^3.4.1",
     "@types/bootstrap": "^5.2.10",
     "bootstrap": "^5.3.3",
     "mdb-angular-ui-kit": "^6.0.0",
