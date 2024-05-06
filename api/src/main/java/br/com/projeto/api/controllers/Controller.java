@@ -69,8 +69,9 @@ public class Controller {
         return ResponseEntity.ok(createdAddress);
     }
 
-    @GetMapping("/addresses/{userId}")
-    public ResponseEntity<List<UserAddress>> getAddressesByUserId(@PathVariable String userId) {
+    @GetMapping("/addresses")
+    public ResponseEntity<List<UserAddress>> getAddressesByUserId(@AuthenticationPrincipal User user) {
+        String userId = user.getId();
         List<UserAddress> userAddresses = addressService.getAddressesByUserId(userId);
         return ResponseEntity.ok(userAddresses);
     }
