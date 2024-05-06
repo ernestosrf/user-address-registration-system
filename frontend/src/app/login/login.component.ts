@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
   showFailedLoginAlert = false;
   showSuccessLoginAlert = false;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService) {
     this.loginObj = new Login();
   }
 
@@ -28,6 +29,7 @@ export class LoginComponent {
     this.http.post<string>('http://localhost:8080/auth/login', this.loginObj, {headers: this.headers_object, responseType: 'text' as 'json'}).subscribe({
       next: (res: any) => {
         if(res) {
+          this.authService.setToken(res);
           this.router.navigateByUrl('/home');
         }
       },
