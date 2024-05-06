@@ -1,0 +1,25 @@
+<div class="alert alert-danger" role="alert" *ngIf="showFailedLoginAlert">
+    Usuário ou senha inválidos!
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card login-container">
+          <div class="card-body">
+            <h2 class="card-title text-center">Login</h2>
+            <form>
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" [(ngModel)]="loginObj.username" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" [(ngModel)]="loginObj.password" required>
+              </div>
+              <button type="button" class="btn btn-primary btn-block" (click)="onLogin()">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -6,6 +6,7 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { Address } from '../model/Address';
 import { AddressService } from '../services/address.service';
 import { AddressUpdateService } from '../services/address-update-service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class HomeComponent {
   constructor(
     private modalService: MdbModalService, 
     private addressService: AddressService,
-    private addressUpdateService: AddressUpdateService
+    private addressUpdateService: AddressUpdateService,
+    private router: Router
   ) {}
 
   openDeleteModal(address: Address) {
@@ -45,6 +47,8 @@ export class HomeComponent {
       modalClass: 'modal-xl'
     });
   }
+
+  // Alert logic
 
   showDeletedAlert = false;
   showCreatedAlert = false;
@@ -88,5 +92,9 @@ export class HomeComponent {
       setTimeout(() => this.showCreatedAlert = false, 5000);
       this.getAddresses();
     });
+  }
+
+  onLogout() {
+    this.router.navigateByUrl('/login');
   }
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ApplicationRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,14 +10,18 @@ import { DeleteAddressModalComponent } from './delete-address-modal/delete-addre
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    // AppComponent,
     HomeComponent,
     CreateAddressModalComponent,
     EditAddressModalComponent,
-    DeleteAddressModalComponent
+    DeleteAddressModalComponent,
+    // LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +31,12 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  // bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(private appRef: ApplicationRef) {}
+
+  ngDoBootstrap() {
+    this.appRef.bootstrap(AppComponent);
+  }
+}
