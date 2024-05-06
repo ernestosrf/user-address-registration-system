@@ -56,7 +56,7 @@ export class HomeComponent {
 
   // API logic
 
-  address = new Address('03b11e89-fd16-4129-a429-587ddc485f4f');
+  address = new Address();
 
   addresses: Address[] = [];
 

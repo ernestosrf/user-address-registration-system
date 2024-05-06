@@ -17,7 +17,7 @@ export class CreateAddressModalComponent {
   ) {}
 
   // API logic
-  address = new Address('03b11e89-fd16-4129-a429-587ddc485f4f'); // hardcoded user id
+  address = new Address();
 
   createAddress():void {
     this.addressService.createAddress(this.address)

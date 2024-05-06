@@ -64,7 +64,8 @@ public class Controller {
     }
 
     @PostMapping("/addresses")
-    public ResponseEntity<UserAddress> createAddress(@RequestBody UserAddress address) {
+    public ResponseEntity<UserAddress> createAddress(@RequestBody UserAddress address, @AuthenticationPrincipal User user) {
+        address.setUserId(user.getId());
         UserAddress createdAddress = addressService.createAddress(address);
         return ResponseEntity.ok(createdAddress);
     }

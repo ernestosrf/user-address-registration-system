@@ -10,7 +10,5 @@ export class Address {
     country: string = 'Brasil';
     userId: string = '';
 
-    constructor(userId: string) {
-        this.userId = userId;
-    }
+    constructor() {}
 }
