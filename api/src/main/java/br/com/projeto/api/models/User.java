@@ -4,15 +4,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.GeneratedValue;
 
-import java.sql.Date;
 import java.util.Collection;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,14 +33,6 @@ public class User implements UserDetails{
     private String username;
 
     private String password;
-
-    // @Temporal(TemporalType.TIMESTAMP)
-    // @Column(name = "created_at", nullable = false, updatable = false)
-    // private Date createdAt;
-
-    // @Temporal(TemporalType.TIMESTAMP)
-    // @Column(name = "updated_at", nullable = true)
-    // private Date updatedt;
 
     private String acessToken;
 

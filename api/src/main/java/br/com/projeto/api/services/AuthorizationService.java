@@ -70,7 +70,6 @@ public class AuthorizationService implements UserDetailsService{
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
         User newUser = new User(registerDto.username(), encryptedPassword);
-        // newUser.setCreatedAt(new Date(System.currentTimeMillis()));
         this.userRepository.save(newUser);
         return ResponseEntity.ok(newUser);        
     }

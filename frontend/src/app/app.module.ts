@@ -16,13 +16,10 @@ import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
-    // AppComponent,
     HomeComponent,
     CreateAddressModalComponent,
     EditAddressModalComponent,
     DeleteAddressModalComponent,
-    // LoginComponent,
-    // RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +31,6 @@ import { RegisterComponent } from './register/register.component';
     NgxPaginationModule
   ],
   providers: [],
-  // bootstrap: [AppComponent]
 })
 export class AppModule { 
   constructor(private appRef: ApplicationRef) {}
