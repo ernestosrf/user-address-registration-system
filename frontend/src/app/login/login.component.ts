@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,14 +19,12 @@ export class LoginComponent {
   showFailedLoginAlert = false;
   showSuccessLoginAlert = false;
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService) {
+  constructor(private router: Router, private authService: AuthenticationService) {
     this.loginObj = new Login();
   }
 
-  private headers_object = new HttpHeaders()
-
   onLogin() {
-    this.http.post<string>('http://localhost:8080/auth/login', this.loginObj, {headers: this.headers_object, responseType: 'text' as 'json'}).subscribe({
+    this.authService.login(this.loginObj).subscribe({
       next: (res: any) => {
         if(res) {
           this.showSuccessLoginAlert = true;
@@ -41,11 +39,8 @@ export class LoginComponent {
         if (error.status === 401) {
           this.showFailedLoginAlert = true;
           setTimeout(() => this.showFailedLoginAlert = false, 5000);
-        } else {
-          alert('An error occurred while processing your request');
-          this.showFailedLoginAlert = true;
-          setTimeout(() => this.showFailedLoginAlert = false, 5000);
         }
+        return error;
       }
     });
   }
@@ -54,7 +49,6 @@ export class LoginComponent {
     this.router.navigateByUrl('/register');
   }
   
-
 }
 
 export class Login {

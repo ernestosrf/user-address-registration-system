@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import {  HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -20,16 +20,13 @@ export class RegisterComponent {
   showSuccessRegisterAlert = false;
 
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthenticationService) {
+  constructor(private router: Router, private authService: AuthenticationService) {
     this.registerObj = new Register();
   }
 
-  private headers_object = new HttpHeaders()
-
   onRegister() {
-    this.http.post<string>('http://localhost:8080/auth/register', this.registerObj, {headers: this.headers_object, responseType: 'text' as 'json'}).subscribe({
+    this.authService.register(this.registerObj).subscribe({
       next: (res: any) => {
-        console.log(res);
         if(res) {
           this.showSuccessRegisterAlert = true;
           setTimeout(() => 
@@ -41,13 +38,11 @@ export class RegisterComponent {
       error: (error: any) => {
         // Handle error response
         console.error('An error occurred:', error);
-        if (error.status === 401) {
-          this.showFailedRegisterAlert = true;
-          setTimeout(() => this.showFailedRegisterAlert = false, 5000);
-        } else {
+        if (error.status === 409) {
           this.showFailedRegisterAlert = true;
           setTimeout(() => this.showFailedRegisterAlert = false, 5000);
         }
+        return error;
       }
     });
   }

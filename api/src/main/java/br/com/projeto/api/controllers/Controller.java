@@ -32,7 +32,7 @@ import br.com.projeto.api.models.UserAddress;
 public class Controller {
 
     @Autowired
-    AuthorizationService authorizationService;
+    private AuthorizationService authorizationService;
 
     @Autowired
     private AddressService addressService;
