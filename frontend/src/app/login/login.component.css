@@ -51,3 +51,11 @@
   .alert {
     text-align: center;
   }
+  
+  .error-message {
+    border-color: red;
+    box-shadow: 0 0 5px red;
+    margin-top: 10px;
+    text-align: center;
+  }
+  

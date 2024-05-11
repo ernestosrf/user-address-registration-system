@@ -1,30 +1,41 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule],
+  imports: [FormsModule, CommonModule, HttpClientModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
-  loginObj: Login;
+  loginForm: FormGroup;
 
   showFailedLoginAlert = false;
   showSuccessLoginAlert = false;
 
-  constructor(private router: Router, private authService: AuthenticationService) {
-    this.loginObj = new Login();
+  constructor(
+    private router: Router, 
+    private authService: AuthenticationService, 
+    private formBuilder: FormBuilder
+  ) {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   onLogin() {
-    this.authService.login(this.loginObj).subscribe({
+    if (this.loginForm.invalid) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+    this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
         if(res) {
           this.showSuccessLoginAlert = true;
@@ -47,16 +58,6 @@ export class LoginComponent {
 
   goToRegister() {
     this.router.navigateByUrl('/register');
-  }
-  
-}
-
-export class Login {
-  username: string;
-  password: string;
-  constructor() {
-    this.username = '';
-    this.password = '';
   }
   
 }

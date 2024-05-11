@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {  HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -9,23 +9,35 @@ import { AuthenticationService } from '../services/authentication.service';
   selector: 'app-register',
   standalone: true,
   templateUrl: './register.component.html',
-  imports: [FormsModule, CommonModule, HttpClientModule],
+  imports: [FormsModule, CommonModule, HttpClientModule, ReactiveFormsModule],
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
 
-  registerObj: Register;
+  registerForm: FormGroup;
 
   showFailedRegisterAlert = false;
   showSuccessRegisterAlert = false;
 
 
-  constructor(private router: Router, private authService: AuthenticationService) {
-    this.registerObj = new Register();
+  constructor(
+    private router: Router, 
+    private authService: AuthenticationService, 
+    private formBuilder: FormBuilder
+  ) {
+    this.registerForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
+
   onRegister() {
-    this.authService.register(this.registerObj).subscribe({
+    if (this.registerForm.invalid) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+    this.authService.register(this.registerForm.value).subscribe({
       next: (res: any) => {
         if(res) {
           this.showSuccessRegisterAlert = true;
@@ -47,13 +59,4 @@ export class RegisterComponent {
     });
   }
 
-}
-export class Register {
-  username: string;
-  password: string;
-  constructor() {
-    this.username = '';
-    this.password = '';
-  }
-  
 }

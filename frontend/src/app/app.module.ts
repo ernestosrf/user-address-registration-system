@@ -9,7 +9,7 @@ import { EditAddressModalComponent } from './edit-address-modal/edit-address-mod
 import { DeleteAddressModalComponent } from './delete-address-modal/delete-address-modal.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -28,7 +28,8 @@ import { RegisterComponent } from './register/register.component';
     HttpClientModule,
     FormsModule,
     NgxViacepModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ReactiveFormsModule,
   ],
   providers: [],
 })
