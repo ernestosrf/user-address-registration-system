@@ -11,7 +11,7 @@
   <div class="modal-body">
   <form>
     <div class="form-outline">
-      <input type="text" id="addressZipCode" class="form-control" maxlength="8" placeholder="CEP" name="zipCode" [(ngModel)]="address.zipCode" required (change)="searchAddressByZipCode(address.zipCode)">
+      <input type="text" id="addressZipCode" class="form-control" maxlength="9" placeholder="CEP" name="zipCode" [(ngModel)]="address.zipCode" required (change)="searchAddressByZipCode(address.zipCode)" (input)="formatZipCode($event)">
     </div>
 
     <div class="row">

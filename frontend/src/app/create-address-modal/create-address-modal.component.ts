@@ -19,19 +19,36 @@ export class CreateAddressModalComponent {
     private viacep: NgxViacepService
   ) {}
 
+  formatZipCode(event: any) {
+    let value = event.target.value;
+
+    value = value.replace(/\D/g, '');
+
+    if (value.length >= 5) {
+      value = value.substring(0, 5) + '-' + value.substring(5, 9);
+    }
+
+    event.target.value = value;
+  }  
+
   // API logic
   address = new Address();
   zipCodeError = '';
+  zipCodeNumber = '';
 
   searchAddressByZipCode(zipCode: string): void {
     this.zipCodeError = '';
-    this.viacep.buscarPorCep(zipCode)
+    this.zipCodeNumber = zipCode.replace(/\D/g, '');
+    this.viacep.buscarPorCep(this.zipCodeNumber)
     .pipe(
       catchError((error) => {
-        if (error === CEPErrorCode.CEP_NAO_ENCONTRADO) {
+        const errorMessage = error.message;
+        if (errorMessage.includes("CEP_MUITO_CURTO")) {
+          this.zipCodeError = 'CEP muito curto';
+        } else if (errorMessage.includes("CEP_NAO_ENCONTRADO")) {
           this.zipCodeError = 'CEP não encontrado';
-        } else if ( error === CEPErrorCode.CEP_INVALIDO) {
-          this.zipCodeError = 'CEP inválido';
+        } else if (errorMessage.includes("CEP_VAZIO")) {
+          this.zipCodeError = 'CEP vazio'
         } else {
           this.zipCodeError = 'Erro ao buscar CEP';
         }
@@ -52,7 +69,6 @@ export class CreateAddressModalComponent {
   }
 
   fillAddress(addressData: any) {
-    console.log(addressData);
     this.address.street = addressData.logradouro;
     this.address.complement = addressData.complemento;
     this.address.neighborhood = addressData.bairro;
