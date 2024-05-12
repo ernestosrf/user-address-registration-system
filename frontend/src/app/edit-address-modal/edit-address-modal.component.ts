@@ -21,21 +21,42 @@ export class EditAddressModalComponent {
     private viacep: NgxViacepService
   ) {}
 
+  formatZipCode(event: any) {
+    let value = event.target.value;
+
+    value = value.replace(/\D/g, '');
+
+    if (value.length >= 5) {
+      value = value.substring(0, 5) + '-' + value.substring(5, 9);
+    }
+
+    event.target.value = value;
+  }
+
   // API logic
 
   zipCodeError = '';
+  zipCodeNumber = '';
 
   searchAddressByZipCode(zipCode: string): void {
     this.zipCodeError = '';
-    this.viacep.buscarPorCep(zipCode)
+    this.zipCodeNumber = zipCode.replace(/\D/g, '');
+    this.viacep.buscarPorCep(this.zipCodeNumber)
     .pipe(
       catchError((error) => {
-        if (error === CEPErrorCode.CEP_NAO_ENCONTRADO) {
-          this.zipCodeError = 'CEP não encontrado';
-        } else if ( error === CEPErrorCode.CEP_INVALIDO) {
-          this.zipCodeError = 'CEP inválido';
-        } else {
-          this.zipCodeError = 'Erro ao buscar CEP';
+        const errorMessage = error.message;
+        switch (true) {
+          case errorMessage.includes("CEP_MUITO_CURTO"):
+            this.zipCodeError = 'CEP muito curto';
+            break;
+          case errorMessage.includes("CEP_NAO_ENCONTRADO"):
+            this.zipCodeError = 'CEP não encontrado';
+            break;
+          case errorMessage.includes("CEP_VAZIO"):
+            this.zipCodeError = 'CEP vazio';
+            break;
+          default:
+            this.zipCodeError = 'Erro ao buscar CEP';
         }
         return of(null);
       })
@@ -46,6 +67,10 @@ export class EditAddressModalComponent {
   }
   
   updateAddress():void {
+    if (!this.address.zipCode || !this.address.street || !this.address.neighborhood || !this.address.city || !this.address.state) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
     this.addressService.updateAddress(this.address, this.address.id)
     .subscribe(() => {
       this.addressUpdateService.addressUpdated();
@@ -54,7 +79,6 @@ export class EditAddressModalComponent {
   }
 
   fillAddress(addressData: any) {
-    console.log(addressData);
     this.address.street = addressData.logradouro;
     this.address.complement = addressData.complemento;
     this.address.neighborhood = addressData.bairro;

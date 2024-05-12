@@ -3,7 +3,7 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { Address } from '../model/Address';
 import { AddressService } from '../services/address.service';
 import { AddressUpdateService } from '../services/address-update-service';
-import { CEPErrorCode, NgxViacepService } from "@brunoc/ngx-viacep";
+import { NgxViacepService } from "@brunoc/ngx-viacep";
 import { catchError, of } from 'rxjs';
 
 @Component({
@@ -43,14 +43,18 @@ export class CreateAddressModalComponent {
     .pipe(
       catchError((error) => {
         const errorMessage = error.message;
-        if (errorMessage.includes("CEP_MUITO_CURTO")) {
-          this.zipCodeError = 'CEP muito curto';
-        } else if (errorMessage.includes("CEP_NAO_ENCONTRADO")) {
-          this.zipCodeError = 'CEP não encontrado';
-        } else if (errorMessage.includes("CEP_VAZIO")) {
-          this.zipCodeError = 'CEP vazio'
-        } else {
-          this.zipCodeError = 'Erro ao buscar CEP';
+        switch (true) {
+          case errorMessage.includes("CEP_MUITO_CURTO"):
+            this.zipCodeError = 'CEP muito curto';
+            break;
+          case errorMessage.includes("CEP_NAO_ENCONTRADO"):
+            this.zipCodeError = 'CEP não encontrado';
+            break;
+          case errorMessage.includes("CEP_VAZIO"):
+            this.zipCodeError = 'CEP vazio';
+            break;
+          default:
+            this.zipCodeError = 'Erro ao buscar CEP';
         }
         return of(null);
       })
@@ -61,6 +65,10 @@ export class CreateAddressModalComponent {
   }
 
   createAddress():void {
+    if(!this.address.zipCode || !this.address.street || !this.address.neighborhood || !this.address.city || !this.address.state) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
     this.addressService.createAddress(this.address)
     .subscribe(() => {
       this.addressUpdateService.addressCreated();
