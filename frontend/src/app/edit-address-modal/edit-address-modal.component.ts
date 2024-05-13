@@ -67,7 +67,7 @@ export class EditAddressModalComponent {
   }
   
   updateAddress():void {
-    if (!this.address.zipCode || !this.address.street || !this.address.neighborhood || !this.address.city || !this.address.state) {
+    if (!this.address.zipCode || !this.address.street || !this.address.number || !this.address.neighborhood || !this.address.city || !this.address.state) {
       alert('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
