@@ -6,6 +6,7 @@ import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { Address } from '../model/Address';
 import { AddressService } from '../services/address.service';
 import { AddressUpdateService } from '../services/address-update-service';
+import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 
 
@@ -22,6 +23,7 @@ export class HomeComponent {
     private modalService: MdbModalService, 
     private addressService: AddressService,
     private addressUpdateService: AddressUpdateService,
+    private authService: AuthenticationService,
     private router: Router
   ) {}
 
@@ -99,6 +101,7 @@ export class HomeComponent {
   }
 
   onLogout() {
+    this.authService.logout();
     this.router.navigateByUrl('/login');
   }
 }

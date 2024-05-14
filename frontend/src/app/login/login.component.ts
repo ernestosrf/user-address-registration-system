@@ -40,7 +40,6 @@ export class LoginComponent {
         if(res) {
           this.showSuccessLoginAlert = true;
           setTimeout(() => this.showSuccessLoginAlert = false, 5000);
-          this.authService.setToken(res);
           setTimeout(() => this.router.navigateByUrl('/home'), 5000);    
         }
       },

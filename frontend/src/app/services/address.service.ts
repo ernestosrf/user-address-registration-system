@@ -14,7 +14,7 @@ export class AddressService {
   constructor(private http:HttpClient, private authService: AuthenticationService) { }
 
   private getHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
+    const token = sessionStorage.getItem('token');
     return new HttpHeaders().set("Authorization", "Bearer " + token);
   }
 
