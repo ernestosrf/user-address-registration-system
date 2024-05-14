@@ -1,6 +1,8 @@
 package br.com.projeto.api.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,10 +66,13 @@ public class Controller {
     }
 
     @PostMapping("/addresses")
-    public ResponseEntity<UserAddress> createAddress(@RequestBody UserAddress address, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Map<String, Object>> createAddress(@RequestBody UserAddress address, @AuthenticationPrincipal User user) {
         address.setUserId(user.getId());
         UserAddress createdAddress = addressService.createAddress(address);
-        return ResponseEntity.ok(createdAddress);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Address created successfully");
+        response.put("data", createdAddress);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/addresses")
@@ -78,22 +83,32 @@ public class Controller {
     }
 
     @PutMapping("/addresses/{addressId}")
-    public ResponseEntity<UserAddress> updateAddress(@PathVariable String addressId, @RequestBody UserAddress address) {
+    public ResponseEntity<Map<String, Object>> updateAddress(@PathVariable String addressId, @RequestBody UserAddress address) {
         try {
             UserAddress updatedAddress = addressService.updateAddress(addressId, address);
-            return ResponseEntity.ok(updatedAddress);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Address updated successfully");
+            response.put("data", updatedAddress);
+            return ResponseEntity.ok().body(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
     @DeleteMapping("/addresses/{addressId}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable String addressId) {
+    public ResponseEntity<Map<String, Object>> deleteAddress(@PathVariable String addressId) {
         try {
-            addressService.deleteAddress(addressId);
-            return ResponseEntity.ok().build();
+            UserAddress deletedAddress = addressService.deleteAddress(addressId);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Address deleted successfully");
+            response.put("data", deletedAddress);
+            return ResponseEntity.ok().body(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Address not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 

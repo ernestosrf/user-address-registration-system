@@ -22,15 +22,15 @@ export class AddressService {
     return this.http.get<Address[]>(this.url, {headers: this.getHeaders()});
   }
 
-  createAddress(address: Address):Observable<Address> {
+  createAddress(address: Address):Observable<any> {
     return this.http.post<Address>(this.url, address, {headers: this.getHeaders()});
   }
 
-  updateAddress(address: Address, id: string):Observable<Address> {
+  updateAddress(address: Address, id: string):Observable<any> {
     return this.http.put<Address>(this.url + '/' + id, address, {headers: this.getHeaders()});
   }
 
-  deleteAddress(id: string):Observable<Address> {
+  deleteAddress(id: string):Observable<any> {
     return this.http.delete<Address>(this.url + '/' + id, {headers: this.getHeaders()});
   }
 
