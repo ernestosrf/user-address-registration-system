@@ -9,6 +9,10 @@
     Endereço atualizado com sucesso!
 </div>
 <input type="button" value="Cadastrar novo endereço" class="btn btn-primary" (click)="openCreateModal()">
+<div class="searchAddresses">
+    <input type="search" [(ngModel)]="searchTerm" placeholder="Buscar endereço...">
+    <button class="btn btn-primary" (click)="searchAddresses()"><img src="assets/search_icon.png" alt="icone de busca"></button>
+</div>
 <table class="table">
     <thead *ngIf="addresses.length > 0">
         <tr>

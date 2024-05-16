@@ -3,7 +3,6 @@ package br.com.projeto.api.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.projeto.api.models.UserAddress;
@@ -41,6 +40,10 @@ public class AddressService {
             .orElseThrow(() -> new RuntimeException("Address not found"));
         addressRepository.delete(address);
         return address;
+    }
+
+    public List<UserAddress> findBySearchTerm(String searchTerm, String userId) {
+        return addressRepository.findBySearchTerm(searchTerm, userId);
     }
 
 }

@@ -16,8 +16,6 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  // modal logic
-  modalRef: MdbModalRef<DeleteAddressModalComponent> | MdbModalRef<EditAddressModalComponent> | MdbModalRef<CreateAddressModalComponent> | null = null;
 
   constructor(
     private modalService: MdbModalService, 
@@ -26,6 +24,9 @@ export class HomeComponent {
     private authService: AuthenticationService,
     private router: Router
   ) {}
+
+  // modal logic
+  modalRef: MdbModalRef<DeleteAddressModalComponent> | MdbModalRef<EditAddressModalComponent> | MdbModalRef<CreateAddressModalComponent> | null = null;
 
   openDeleteModal(address: Address) {
     this.modalRef = this.modalService.open(DeleteAddressModalComponent, {
@@ -51,7 +52,6 @@ export class HomeComponent {
   }
 
   // Alert logic
-
   showDeletedAlert = false;
   showCreatedAlert = false;
   showUpdatedAlert = false;
@@ -61,10 +61,10 @@ export class HomeComponent {
   counter:number = 5;
 
   // API logic
-
   address = new Address();
 
   addresses: Address[] = [];
+  searchTerm: string = '';
 
   getAddresses():void {
     this.addressService.getAddresses()
@@ -103,5 +103,11 @@ export class HomeComponent {
   onLogout() {
     this.authService.logout();
     this.router.navigateByUrl('/login');
+  }
+
+  searchAddresses() {
+    this.addressService.searchAddresses(this.searchTerm).subscribe((data: any[]) => {
+      this.addresses = data;
+    });
   }
 }

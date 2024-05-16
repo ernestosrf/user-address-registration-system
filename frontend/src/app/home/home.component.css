@@ -52,3 +52,27 @@ table button {
 .text-right {
     text-align: center;
 }
+
+.searchAddresses {
+    display: flex;
+    justify-content: center;
+}
+
+.searchAddresses input[type="search"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px; 
+    margin-right: 10px;
+}
+
+.searchAddresses button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.searchAddresses button:hover {
+    background-color: #0056b3;
+}

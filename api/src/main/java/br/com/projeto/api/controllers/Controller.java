@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import br.com.projeto.api.services.AddressService;
@@ -110,6 +111,13 @@ public class Controller {
             response.put("message", "Address not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+    }
+
+    @GetMapping("/addresses/search")
+    public ResponseEntity<List<UserAddress>> findAddressesBySearchTerm(@RequestParam String searchTerm, @AuthenticationPrincipal User user) {
+        String userId = user.getId();
+        List<UserAddress> addresses = addressService.findBySearchTerm(searchTerm, userId);
+        return ResponseEntity.ok(addresses);
     }
 
 }

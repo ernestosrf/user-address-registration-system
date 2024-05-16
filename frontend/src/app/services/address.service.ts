@@ -34,4 +34,8 @@ export class AddressService {
     return this.http.delete<Address>(this.url + '/' + id, {headers: this.getHeaders()});
   }
 
+  searchAddresses(searchTerm: string):Observable<Address[]> {
+    return this.http.get<Address[]>(this.url + '/search?searchTerm=' + searchTerm, {headers: this.getHeaders()});
+  }
+
 }
