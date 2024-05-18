@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import br.com.projeto.api.dtos.AuthenticationDto;
 import br.com.projeto.api.dtos.RegisterDto;
+import br.com.projeto.api.dtos.UserAddressDto;
 import br.com.projeto.api.models.User;
 // models
 import br.com.projeto.api.models.UserAddress;
@@ -65,9 +66,9 @@ public class Controller {
     }
 
     @GetMapping("/addresses")
-    public ResponseEntity<List<UserAddress>> getAddressesByUserId(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<UserAddressDto>> getAddressesByUserId(@AuthenticationPrincipal User user) {
         String userId = user.getId();
-        List<UserAddress> userAddresses = addressService.getAddressesByUserId(userId);
+        List<UserAddressDto> userAddresses = addressService.getAddressesByUserId(userId);
         return ResponseEntity.ok(userAddresses);
     }
 
@@ -107,6 +108,5 @@ public class Controller {
         List<UserAddress> addresses = addressService.findBySearchTerm(searchTerm, userId);
         return ResponseEntity.ok(addresses);
     }
-
 }
  

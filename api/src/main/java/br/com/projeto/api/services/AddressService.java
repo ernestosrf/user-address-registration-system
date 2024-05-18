@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
+import br.com.projeto.api.dtos.UserAddressDto;
 import br.com.projeto.api.models.User;
 import br.com.projeto.api.models.UserAddress;
 import br.com.projeto.api.repository.AddressRepository;
@@ -44,8 +45,24 @@ public class AddressService {
         return existingAddress;
     }
 
-    public List<UserAddress> getAddressesByUserId(String userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")).getAddresses().stream().collect(Collectors.toList());
+    public List<UserAddressDto> getAddressesByUserId(String userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return user.getAddresses().stream().map(address -> {
+            UserAddressDto dto = new UserAddressDto();
+            dto.setId(address.getId());
+            dto.setStreet(address.getStreet());
+            dto.setNumber(address.getNumber());
+            dto.setComplement(address.getComplement());
+            dto.setNeighborhood(address.getNeighborhood());
+            dto.setCity(address.getCity());
+            dto.setState(address.getState());
+            dto.setCountry(address.getCountry());
+            dto.setZipCode(address.getZipCode());
+            dto.setUserCount(address.getUsers().size());
+            return dto;
+        }).collect(Collectors.toList());
     }
 
     public UserAddress updateAddress(String id, UserAddress address) {
