@@ -40,17 +40,6 @@ public class Controller {
     @Autowired
     private AddressService addressService;
 
-    @GetMapping("/")
-    public String test() {
-        return "Hello World!";
-    }
-
-    @GetMapping("/secure")
-    public ResponseEntity<Object> secure(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok("If you see this, you are logged in as " + user.getUsername()
-            + " and your ID is " + user.getId());
-    }
-
     @PostMapping("/auth/login")
     public ResponseEntity<Object> login(@RequestBody @Valid AuthenticationDto authenticationDto) {
         return authorizationService.login(authenticationDto);
@@ -67,12 +56,11 @@ public class Controller {
     }
 
     @PostMapping("/addresses")
-    public ResponseEntity<Map<String, Object>> createAddress(@RequestBody UserAddress address, @AuthenticationPrincipal User user) {
-        address.setUserId(user.getId());
-        UserAddress createdAddress = addressService.createAddress(address);
+    public ResponseEntity<Map<String, Object>> createOrAssignAddress(@RequestBody UserAddress address, @AuthenticationPrincipal User user) {
+        UserAddress createdOrAssignedAddress = addressService.createOrAssignAddress(address, user);
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "Address created successfully");
-        response.put("data", createdAddress);
+        response.put("message", "Address processed successfully");
+        response.put("data", createdOrAssignedAddress);
         return ResponseEntity.ok().body(response);
     }
 
@@ -99,12 +87,12 @@ public class Controller {
     }
 
     @DeleteMapping("/addresses/{addressId}")
-    public ResponseEntity<Map<String, Object>> deleteAddress(@PathVariable String addressId) {
+    public ResponseEntity<Map<String, Object>> deleteAddress(@PathVariable String addressId, @AuthenticationPrincipal User user) {
         try {
-            UserAddress deletedAddress = addressService.deleteAddress(addressId);
+            UserAddress addressToDelete = addressService.deleteAddress(addressId, user);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Address deleted successfully");
-            response.put("data", deletedAddress);
+            response.put("message", "Address unlinked from user successfully");
+            response.put("data", addressToDelete);
             return ResponseEntity.ok().body(response);
         } catch (RuntimeException e) {
             Map<String, Object> response = new HashMap<>();

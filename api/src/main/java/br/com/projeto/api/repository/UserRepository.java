@@ -1,5 +1,6 @@
 package br.com.projeto.api.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,8 @@ public interface UserRepository extends JpaRepository<User, UUID>{
 
     @Query("SELECT u FROM User u WHERE u.username = :username")
     UserDetails findByUsername(String username);
+
+    @Query("SELECT u FROM User u WHERE u.id = :id")
+    Optional<User> findById(String id);
 
 }

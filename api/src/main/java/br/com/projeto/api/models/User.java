@@ -1,8 +1,13 @@
 package br.com.projeto.api.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -12,9 +17,14 @@ import lombok.Setter;
 import jakarta.persistence.GeneratedValue;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @NoArgsConstructor
@@ -35,6 +45,16 @@ public class User implements UserDetails{
     private String password;
 
     private String acessToken;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+        name = "user_address_mapping",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "address_id")
+    )
+    
+    @JsonIgnore
+    private Set<UserAddress> addresses = new HashSet<>();
 
     public User(String username, String password) {
         this.username = username;
@@ -82,6 +102,11 @@ public class User implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    public void removeAddress(UserAddress address) {
+        this.addresses.remove(address);
+        address.getUsers().remove(this);
     }
     
 }
