@@ -104,9 +104,4 @@ public class User implements UserDetails{
         return null;
     }
 
-    public void removeAddress(UserAddress address) {
-        this.addresses.remove(address);
-        address.getUsers().remove(this);
-    }
-    
 }

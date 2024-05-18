@@ -63,10 +63,16 @@ public class AddressService {
     }
 
     public UserAddress deleteAddress(String id, User user) {
-        UserAddress address = addressRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Address not found"));
+        List<UserAddress> userAddresses = user.getAddresses().stream().collect(Collectors.toList());
 
-        return address;
+        for (UserAddress userAddress : userAddresses) {
+            if (userAddress.getId().equals(Long.valueOf(id))) {
+                user.getAddresses().remove(userAddress);
+                userRepository.save(user);
+                return userAddress;
+            }        
+        }
+        throw new RuntimeException("Address not found");        
     }
 
     public List<UserAddress> findBySearchTerm(String searchTerm, String userId) {
