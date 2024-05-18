@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import br.com.projeto.api.dtos.AuthenticationDto;
 import br.com.projeto.api.dtos.RegisterDto;
+import br.com.projeto.api.dtos.UserAddressDto;
 import br.com.projeto.api.models.User;
 // models
 import br.com.projeto.api.models.UserAddress;
@@ -39,17 +40,6 @@ public class Controller {
 
     @Autowired
     private AddressService addressService;
-
-    @GetMapping("/")
-    public String test() {
-        return "Hello World!";
-    }
-
-    @GetMapping("/secure")
-    public ResponseEntity<Object> secure(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok("If you see this, you are logged in as " + user.getUsername()
-            + " and your ID is " + user.getId());
-    }
 
     @PostMapping("/auth/login")
     public ResponseEntity<Object> login(@RequestBody @Valid AuthenticationDto authenticationDto) {
@@ -67,19 +57,18 @@ public class Controller {
     }
 
     @PostMapping("/addresses")
-    public ResponseEntity<Map<String, Object>> createAddress(@RequestBody UserAddress address, @AuthenticationPrincipal User user) {
-        address.setUserId(user.getId());
-        UserAddress createdAddress = addressService.createAddress(address);
+    public ResponseEntity<Map<String, Object>> createOrAssignAddress(@RequestBody UserAddress address, @AuthenticationPrincipal User user) {
+        UserAddress createdOrAssignedAddress = addressService.createOrAssignAddress(address, user);
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "Address created successfully");
-        response.put("data", createdAddress);
+        response.put("message", "Address processed successfully");
+        response.put("data", createdOrAssignedAddress);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/addresses")
-    public ResponseEntity<List<UserAddress>> getAddressesByUserId(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<UserAddressDto>> getAddressesByUserId(@AuthenticationPrincipal User user) {
         String userId = user.getId();
-        List<UserAddress> userAddresses = addressService.getAddressesByUserId(userId);
+        List<UserAddressDto> userAddresses = addressService.getAddressesByUserId(userId);
         return ResponseEntity.ok(userAddresses);
     }
 
@@ -99,12 +88,12 @@ public class Controller {
     }
 
     @DeleteMapping("/addresses/{addressId}")
-    public ResponseEntity<Map<String, Object>> deleteAddress(@PathVariable String addressId) {
+    public ResponseEntity<Map<String, Object>> deleteAddress(@PathVariable String addressId, @AuthenticationPrincipal User user) {
         try {
-            UserAddress deletedAddress = addressService.deleteAddress(addressId);
+            UserAddress addressToDelete = addressService.deleteAddress(addressId, user);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Address deleted successfully");
-            response.put("data", deletedAddress);
+            response.put("message", "Address unlinked from user successfully");
+            response.put("data", addressToDelete);
             return ResponseEntity.ok().body(response);
         } catch (RuntimeException e) {
             Map<String, Object> response = new HashMap<>();
@@ -119,6 +108,5 @@ public class Controller {
         List<UserAddress> addresses = addressService.findBySearchTerm(searchTerm, userId);
         return ResponseEntity.ok(addresses);
     }
-
 }
  

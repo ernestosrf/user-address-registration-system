@@ -7,8 +7,9 @@ export class Address {
     city: string = '';
     state: string = '';
     zipCode: string = '';
-    country: string = 'Brasil';
+    country: string = 'Brazil';
     userId: string = '';
+    userCount: number = 0;
 
     constructor() {}
 }

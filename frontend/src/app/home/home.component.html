@@ -24,6 +24,7 @@
             <th>Cidade</th>
             <th>Estado</th>
             <th>CEP</th>
+            <th>Nº de moradores</th>
             <th>Ações</th>
         </tr>
     </thead>
@@ -38,6 +39,7 @@
             <td> {{a.city}} </td>
             <td> {{a.state}} </td>
             <td> {{a.zipCode}} </td>
+            <td> {{a.userCount}} </td>
             <td>
                 <button class="btn btn-primary" (click)="openEditModal(a)" ><img src="assets/edit_icon.png" alt="icone de edição"></button>
                 <button class="btn btn-danger" (click)="openDeleteModal(a)" ><img src="assets/trash_icon.png" alt="icone de exclusão"></button>
