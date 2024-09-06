@@ -8,11 +8,14 @@
 <div class="alert alert-success" role="alert" *ngIf="showUpdatedAlert">
     Endereço atualizado com sucesso!
 </div>
-<input type="button" value="Cadastrar novo endereço" class="btn btn-primary" (click)="openCreateModal()">
+
+<button mat-raised-button class="btn-create-address btn-primary" color="primary" (click)="openCreateModal()">Cadastrar novo endereço</button>
 
 <div class="searchAddresses">
-    <input type="search" [(ngModel)]="searchTerm" placeholder="Buscar endereço...">
-    <button class="btn btn-primary" (click)="searchAddresses()"><img src="assets/search_icon.png" alt="icone de busca"></button>
+  <input type="search" [(ngModel)]="searchTerm" placeholder="Buscar endereço...">
+  <button mat-raised-button color="primary" (click)="searchAddresses()">
+      <img src="assets/search_icon.png" alt="icone de busca">
+  </button>
 </div>
 
 <table mat-table [dataSource]="dataSource" matSort>
@@ -28,7 +31,7 @@
     </ng-container>
   
     <ng-container matColumnDef="number">
-      <th mat-header-cell *matHeaderCellDef> Número </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Número </th>
       <td mat-cell *matCellDef="let a"> {{ a.number }} </td>
     </ng-container>
   
@@ -58,18 +61,24 @@
     </ng-container>
   
     <ng-container matColumnDef="userCount">
-      <th mat-header-cell *matHeaderCellDef> Nº de moradores </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nº de moradores </th>
       <td mat-cell *matCellDef="let a"> {{ a.userCount }} </td>
     </ng-container>
   
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Ações </th>
       <td mat-cell *matCellDef="let a">
-        <button class="btn btn-primary" (click)="openEditModal(a)">
+        <!-- <button class="btn btn-primary" (click)="openEditModal(a)">
           <img src="assets/edit_icon.png" alt="icone de edição">
         </button>
         <button class="btn btn-danger" (click)="openDeleteModal(a)">
           <img src="assets/trash_icon.png" alt="icone de exclusão">
+        </button> -->
+        <button mat-icon-button (click)="openEditModal(a)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="openDeleteModal(a)">
+          <mat-icon>delete</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -79,5 +88,7 @@
   
   </table>
   
-  <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
-<input type="button" value="Sair" class="btn btn-secondary" (click)="onLogout()">
+  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+
+<!-- <input type="button" value="Sair" class="btn btn-secondary" (click)="onLogout()"> -->
+<button mat-raised-button class="btn-logout" color="primary" (click)="onLogout()">Sair</button>

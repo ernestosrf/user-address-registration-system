@@ -11,24 +11,25 @@ img {
     height: 25px;
 }
 
-input[type="button"].btn-primary {
-    position: fixed;
-    top: 20px;
-    right: 20px;
+.btn-primary {
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
-    border: none;
+    border: none; 
+    border-radius: 5px;
 }
 
-input[type="button"].btn-secondary {
+.btn-create-address {
     position: fixed;
-    bottom: 20px;
+    top: 100px;
+    right: 20px;
+}
+
+.btn-logout {
+    position: fixed;
     left: 20px;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
+    bottom: 20px;
 }
 
 table {
@@ -56,6 +57,7 @@ table button {
 .searchAddresses {
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .searchAddresses input[type="search"] {
