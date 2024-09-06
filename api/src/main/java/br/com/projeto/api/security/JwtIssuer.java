@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +19,12 @@ import br.com.projeto.api.models.User;
 @Component
 public class JwtIssuer {
 
+    @Value("${jwt.secret")
+    private String secret;
+
     public String issueToken(User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
+            Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.create()
             .withIssuer("auth")
@@ -34,7 +38,7 @@ public class JwtIssuer {
 
     public ResponseEntity<String> validateToken(String token) {
         try {
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256("secret"))
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(secret))
                 .withIssuer("auth")
                 .build()
                 .verify(token);

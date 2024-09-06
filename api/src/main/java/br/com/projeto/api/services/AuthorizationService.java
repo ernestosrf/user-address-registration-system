@@ -1,7 +1,5 @@
 package br.com.projeto.api.services;
 
-import java.sql.Date;
-
 import org.apache.catalina.connector.Response;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +57,7 @@ public class AuthorizationService implements UserDetailsService{
             System.out.println(token);
             return ResponseEntity.ok(token);
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(Response.SC_UNAUTHORIZED).body("Unexistent user or wrong password");
+            return ResponseEntity.status(Response.SC_UNAUTHORIZED).body("Nonexistent user or wrong password");
         }
 
     }
