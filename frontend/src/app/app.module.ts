@@ -1,6 +1,5 @@
 import { ApplicationRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxViacepModule } from "@brunoc/ngx-viacep";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -13,6 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -27,11 +30,15 @@ import { RegisterComponent } from './register/register.component';
     MdbModalModule,
     HttpClientModule,
     FormsModule,
-    NgxViacepModule,
     NgxPaginationModule,
     ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
 })
 export class AppModule { 
   constructor(private appRef: ApplicationRef) {}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EditAddressModalComponent} from '../edit-address-modal/edit-address-modal.component';
 import { CreateAddressModalComponent } from '../create-address-modal/create-address-modal.component';
 import { DeleteAddressModalComponent } from '../delete-address-modal/delete-address-modal.component';
@@ -8,6 +8,9 @@ import { AddressService } from '../services/address.service';
 import { AddressUpdateService } from '../services/address-update-service';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 
 @Component({
@@ -15,8 +18,7 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
-
+export class HomeComponent implements OnInit {
   constructor(
     private modalService: MdbModalService, 
     private addressService: AddressService,
@@ -24,6 +26,9 @@ export class HomeComponent {
     private authService: AuthenticationService,
     private router: Router
   ) {}
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   // modal logic
   modalRef: MdbModalRef<DeleteAddressModalComponent> | MdbModalRef<EditAddressModalComponent> | MdbModalRef<CreateAddressModalComponent> | null = null;
@@ -61,16 +66,26 @@ export class HomeComponent {
   counter:number = 5;
 
   // API logic
-  address = new Address();
 
   addresses: Address[] = [];
   searchTerm: string = '';
 
+  displayedColumns: string[] = ['index', 'street', 'number', 'complement', 'neighborhood', 'city', 'state', 'zipCode', 'userCount', 'actions'];
+  dataSource = new MatTableDataSource<Address>();
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   getAddresses():void {
-    this.addressService.getAddresses()
-    .subscribe((addresses) => {
-      this.addresses = addresses
-  });
+    this.addressService.getAddresses().subscribe((addresses) => {
+      this.addresses = addresses;
+      this.dataSource.data = this.addresses;
+
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   ngOnInit() {
@@ -106,8 +121,9 @@ export class HomeComponent {
   }
 
   searchAddresses() {
-    this.addressService.searchAddresses(this.searchTerm).subscribe((data: any[]) => {
+    this.addressService.searchAddresses(this.searchTerm).subscribe((data: Address[]) => {
       this.addresses = data;
+      this.dataSource.data = data;
     });
   }
 }

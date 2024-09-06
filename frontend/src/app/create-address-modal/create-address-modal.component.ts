@@ -3,7 +3,6 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { Address } from '../model/Address';
 import { AddressService } from '../services/address.service';
 import { AddressUpdateService } from '../services/address-update-service';
-import { NgxViacepService } from "@brunoc/ngx-viacep";
 import { catchError, of } from 'rxjs';
 
 @Component({
@@ -16,7 +15,6 @@ export class CreateAddressModalComponent {
     public modalRef: MdbModalRef<CreateAddressModalComponent>, 
     private addressService: AddressService,
     private addressUpdateService: AddressUpdateService,
-    private viacep: NgxViacepService
   ) {}
 
   formatZipCode(event: any) {
@@ -39,7 +37,7 @@ export class CreateAddressModalComponent {
   searchAddressByZipCode(zipCode: string): void {
     this.zipCodeError = '';
     this.zipCodeNumber = zipCode.replace(/\D/g, '');
-    this.viacep.buscarPorCep(this.zipCodeNumber)
+    this.addressService.consultCep(this.zipCodeNumber)
     .pipe(
       catchError((error) => {
         const errorMessage = error.message;
