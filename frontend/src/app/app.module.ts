@@ -21,6 +21,10 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { CreateVehicleModalComponent } from './create-vehicle-modal/create-vehicle-modal.component';
+import { EditVehicleModalComponent } from './edit-vehicle-modal/edit-vehicle-modal.component';
+import { DeleteVehicleModalComponent } from './delete-vehicle-modal/delete-vehicle-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,9 @@ import { MatInputModule } from '@angular/material/input';
     CreateAddressModalComponent,
     EditAddressModalComponent,
     DeleteAddressModalComponent,
+    CreateVehicleModalComponent,
+    EditVehicleModalComponent,
+    DeleteVehicleModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormField,
     MatIconModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatTabsModule
   ],
   providers: [
     provideAnimationsAsync()
